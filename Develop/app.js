@@ -183,9 +183,80 @@ function createIntern() {
 // information; write your code to ask different questions via inquirer depending on
 // employee type.
 ​
+function createEngineer() {
+    console.log("engineer")
+    inquirer.prompt([{
+            type: "input",
+            name: "engineerName",
+            message: "What is your engineer's name?",
+            validate: answer => {
+                if (answer !== "") {
+                    return true;
+                }
+                return "Please enter at least one character.";
+            }
+        },
+        {
+            type: "input",
+            name: "engineerId",
+            message: "What is your engineer's id?",
+            validate: answer => {
+                const pass = answer.match(
+                    /^[1-9]\d*$/
+                );
+                if (pass) {
+                    //  if (idArray.includes(answer)) {
+                    //      return "This ID is already taken. Please enter a different number.";
+                    //  } else {
+                    //      return true;
+                    //  }
+
+                }
+                //  return "Please enter a positive number greater than zero.";
+                return true;
+            }
+        },
+        {
+            type: "input",
+            name: "engineerEmail",
+            message: "What is your engineer's email?",
+            validate: answer => {
+                const pass = answer.match(
+                    /\S+@\S+\.\S+/
+                );
+                if (pass) {
+                    return true;
+                }
+                return "Please enter a valid email address.";
+            }
+        },
+        {
+            type: "input",
+            name: "engineerGithub",
+            message: "What is your engineer's GitHub username?",
+            validate: answer => {
+                if (answer !== "") {
+                    return true;
+                }
+                return "Please enter at least one character.";
+            }
+        }
+    ]).then(answers => {
+        //  console.log(answers)
+        const engineer = new Engineer(answers.engineerName, answers.engineerId, answers.engineerEmail, answers.engineerGithub);
+
+        employees.push(engineer)
+        createTeam();
+    })
+
+}
 // HINT: make sure to build out your classes first! Remember that your Manager, Engineer,
 // and Intern classes should all extend from a class named Employee; see the directions
 // for further information. Be sure to test out each class and verify it generates an 
 // object with the correct structure and methods. This structure will be crucial in order
 // for the provided `render` function to work!```
 
+function buildTeam() {
+    fs.writeFileSync(output, render(employees), "utf8")
+}
+createMngr();
